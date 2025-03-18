@@ -7,7 +7,7 @@ module.exports = {
     extend: {
       colors: {
         'lavender': '#C6C2F2',
-        'obsidian': '#262628',
+        'obsidian': '#121212',
         'cream': '#FFF6EE',
       }
     },

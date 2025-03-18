@@ -10,15 +10,15 @@ import React from 'react'
 import AuthTextInput from 'components/common/AuthTextInput'
 import AuthButton from 'components/common/AuthButton'
 
-const SigninScreen = () => {
+const SigninScreen = ({navigation}) => {
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
             <SafeAreaView className='flex-1 bg-obsidian items-center gap-12'>
                 {/** will be a logo here as well */}
 
                 <View>
-                    <Text className='text-cream text-4xl'>Welcome back</Text>
-                    <Text className='text-cream text-2xl ml-3'>Let's get you inSync</Text>
+                    <Text className='text-cream text-4xl font-bold'>Welcome back</Text>
+                    <Text className='text-cream text-2xl ml-3 font-bold'>Let's get you inSync</Text>
                 </View>
 
                 <View className='w-full items-center gap-4 justify-center'>
@@ -33,12 +33,6 @@ const SigninScreen = () => {
                 </TouchableOpacity>
 
                 <AuthButton text='Sign in'/>
-
-                <TouchableOpacity>
-                    <Text className='text-lavender text-xl'>
-                        Don't have an account?
-                    </Text>
-                </TouchableOpacity>
                 
             </SafeAreaView>
         </TouchableWithoutFeedback>
