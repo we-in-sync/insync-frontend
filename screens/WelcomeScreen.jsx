@@ -9,8 +9,8 @@ const WelcomeScreen = ({navigation}) => {
             <Text className='text-cream text-3xl underline'>A logo will be here</Text>
             
             <View className='items-center'>
-                <Text className='text-cream text-3xl'>Connect with millions</Text>
-                <Text className='text-cream text-3xl'>of other music enthusiasts</Text>
+                <Text className='text-cream text-3xl'>Stay inSync with</Text>
+                <Text className='text-cream text-3xl'>real research </Text>
             </View>
 
             <AuthButton text='Sign up for free' functionToCall={() => {navigation.navigate('Signup')}}/>

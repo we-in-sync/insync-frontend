@@ -1,6 +1,7 @@
 import SigninScreen from 'screens/SigninScreen';
 import SignupScreen from 'screens/SignupScreen';
 import WelcomeScreen from 'screens/WelcomeScreen';
+import ForgotPasswordScreen from 'screens/ForgotPasswordScreen';
 
 import './global.css';
 import { SafeAreaView, View, Text, StatusBar } from 'react-native';
@@ -16,6 +17,7 @@ const AuthStackComponent = () => {
       <AuthStack.Screen name='Welcome'component={WelcomeScreen} options={{headerShown: false}}/>
       <AuthStack.Screen name='Signin' component={SigninScreen} options={{headerShown: false}} />
       <AuthStack.Screen name='Signup' component={SignupScreen} options={{headerShown: false}} />
+      <AuthStack.Screen name='ForgotPassword' component={ForgotPasswordScreen} options={{ headerShown: false }} />
     </AuthStack.Navigator>
   );
 }
