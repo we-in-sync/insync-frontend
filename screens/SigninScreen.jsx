@@ -22,7 +22,7 @@ const SigninScreen = ({navigation}) => {
     const handleLogin = async () => {
         await login({
             email, 
-            password,
+            password
         });
 
         // will implement redirect here later 

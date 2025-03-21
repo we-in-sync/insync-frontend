@@ -12,9 +12,9 @@ export const authService = {
         }
     }, 
 
-    login: async (credentials) => {
+    login: async (email, password) => {
         try {
-            const response = await api.post(AUTH_ENDPOINTS.LOGIN, credentials);
+            const response = await api.post(AUTH_ENDPOINTS.LOGIN, email, password);
             return response.data;
         } catch (error) {
             console.error('Login error: ', error);
@@ -24,11 +24,33 @@ export const authService = {
 
     forgotPassword: async (email) => {
         try {
-            const response = await api.post(AUTH_ENDPOINTS.FORGOT_PASSWORD, email);
+            const response = await api.post(AUTH_ENDPOINTS.FORGOT_PASSWORD, {email});
+            console.log(response.data);
             return response.data;
         } catch (error) {
             console.log('Forgot password error: ', error);
+
+            if (error.response && error.response.data) {
+                console.log('Error response data: ', error.response.data);
+                return error.response.data;
+            }
             throw error;
         }
     }, 
+
+    resetPassword: async (token, password, passwordConfirm) => {
+        try {
+            const response = await api.patch(AUTH_ENDPOINTS.RESET_PASSWORD(token), { password, passwordConfirm });
+            console.log(response.data);
+            return response.data;
+        } catch (error) {
+            console.log('Reset password error: ', error);
+            
+            if (error.response && error.response.data) {
+                console.log('Error response data: ', error.response.data);
+                return error.response.data;
+            }
+            throw error;
+        }
+    }
 }

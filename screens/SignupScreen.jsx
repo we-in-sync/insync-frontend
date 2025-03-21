@@ -16,7 +16,8 @@ const SignupScreen = ({navigation}) => {
             email, 
             password, 
             passwordConfirm
-        });
+        }
+        );
         navigation.navigate('Signin');
     }
 

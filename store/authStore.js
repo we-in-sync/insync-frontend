@@ -59,19 +59,18 @@ const useAuthStore = create((set) => ({
     },
 
     forgotPassword: async (email) => {
-        set({ isLoading: true, error: null });
-        try {
-            const response = await authService.forgotPassword(email);
-            set({ isLoading: false });
-            return response;
-        } catch (error) {
-            set({
-                error: error || 'Password reset request failed',
-                isLoading: false,
-            });
-            throw error;
-        }
+        set({ isLoading: true })
+        const response = await authService.forgotPassword(email);
+        set({ isLoading: false })
+        return response;
     },
+
+    resetPassword: async (token, password, passwordConfirm) => {
+        set({ isLoading: true })
+        const response = await authService.resetPassword(token, password, passwordConfirm)
+        set({ isLoading: false })
+        return response
+    }, 
 
     clearError: () => set({ error: null }),
 
