@@ -1,6 +1,7 @@
 import { View, Text, TouchableWithoutFeedback, SafeAreaView, Keyboard } from 'react-native'
 import React from 'react'
 import { useState } from 'react'
+import { Alert } from 'react-native'
 
 import AuthTextInput from 'components/common/AuthTextInput'
 import AuthButton from 'components/common/AuthButton'
@@ -8,17 +9,48 @@ import AuthButton from 'components/common/AuthButton'
 import useAuthStore from 'store/authStore'
 
 const SignupScreen = ({navigation}) => {
-    const signup = useAuthStore(state => state.signup);
+    const signup = useAuthStore(state => state.signup)
+    const isLoading = useAuthStore(state => state.isLoading)
 
     const handleSignUp = async () => {
-        await signup({
+        if (!username || !email || !password || !passwordConfirm) {
+            Alert.alert(
+                "Missing Information",
+                "Please fill in all fields to create your account."
+            );
+            return
+        }
+
+        if (password !== passwordConfirm) {
+            Alert.alert(
+                "Password Mismatch",
+                "The passwords you entered don't match. Please try again."
+            );
+            return
+        }
+
+        const response = await signup({
             username, 
             email, 
             password, 
             passwordConfirm
-        }
+        });
+        
+        if (!response.success) {
+            Alert.alert("Error", "Failed to sign up, please try again")
+            return
+        } 
+
+        Alert.alert(
+            "Account Created Successfully!",
+            "Welcome to inSync. You can now sign in with your credentials.",
+            [
+                {
+                    text: "Sign In Now",
+                    onPress: () => navigation.navigate('Signin')
+                }
+            ]
         );
-        navigation.navigate('Signin');
     }
 
     const [username, setUsername] = useState('');
@@ -58,7 +90,7 @@ const SignupScreen = ({navigation}) => {
                     onChangeText={setpasswordConfirm}
                 />
 
-                <AuthButton text='Sign up' functionToCall={handleSignUp}/>
+                <AuthButton text='Sign up' functionToCall={handleSignUp} isLoading={isLoading}/>
 
             </SafeAreaView>
         </TouchableWithoutFeedback>

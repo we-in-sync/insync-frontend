@@ -25,17 +25,8 @@ const ForgotPasswordScreen = ({ navigation }) => {
     const handleGetResetToken = async (email) => {
         const result = await forgotPassword(email);
 
-        if (result.status === "fail" || (result.errors && result.errors.length > 0)) {
-            let errorMessage = "Email not associated with any account";
-
-            if (result.errors && result.errors.length > 0) {
-                errorMessage = result.errors[0].msg;
-            }
-
-            Alert.alert(
-                "Error",
-                errorMessage,
-            );
+        if (!result.success) {
+            Alert.alert("Error", "Failed to generate token. Make sure e-mail is valid");
             return;
         }
 
@@ -43,32 +34,18 @@ const ForgotPasswordScreen = ({ navigation }) => {
     };
 
     const handleResetPassword = async (token, password, passwordConfirm) => {
-        try {
-            const result = await resetPassword(token, password, passwordConfirm);
+        const response = await resetPassword(token, password, passwordConfirm)
 
-            if (result.status === "fail" || (result.errors && result.errors.length > 0)) {
-                let errorMessage = "An error occurred!";
-
-                if (result.errors && result.errors.length > 0) {
-                    errorMessage = result.errors[0].msg;
-                }
-
-                Alert.alert(
-                    "Error",
-                    errorMessage
-                );
-                return;
-            }
-
-            Alert.alert(
-                "Success",
-                "Your password has been reset successfully!",
-                [{ text: "OK", onPress: () => setCurrentStep(3) }]
-            );
-        } catch (error) {
-            console.error("Reset password error:", error);
-            Alert.alert("Error", "An unexpected error occurred");
+        if (!response.success) {
+            Alert.alert("Error", "Failed to reset password")
+            return
         }
+
+        Alert.alert(
+            "Success", 
+            "Your password has been reset successfully!", 
+            [{text: "OK", onPress: () => {setCurrentStep(3)}}]
+        )
     };
 
     return (

@@ -9,53 +9,20 @@ const useAuthStore = create((set) => ({
     error: null,
 
     signup: async (userData) => {
-        set({ isLoading: true, error: null });
-
-        try {
-            const response = await authService.signup(userData);
-
-            set({
-                user: response.user,
-                token: response.token,
-                isLoading: false,
-            });
-
-            return response;
-
-        } catch (error) {
-            set({
-                error: error || 'Signup failed',
-                isLoading: false,
-            });
-
-            throw error;
-        }
+        set({ isLoading: true })
+        const response = await authService.signup(userData)
+        set({ isLoading: false })
+        return response
     },
 
     login: async (credentials) => {
-        set({ isLoading: true, error: null });
-
-        try {
-
-            const response = await authService.login(credentials);
-
-            set({
-                user: response.user,
-                token: response.token,
-                isLoggedIn: true,
-                isLoading: false,
-            });
-
-            return response;
-
-        } catch (error) {
-            set({
-                error: error || 'Login failed',
-                isLoading: false,
-            });
-
-            throw error;
+        set({ isLoading: true })
+        const response = await authService.login(credentials)
+        set({ isLoading: false })
+        if (response.success) {
+            set({ user: response.data.user })
         }
+        return response
     },
 
     forgotPassword: async (email) => {
@@ -70,7 +37,7 @@ const useAuthStore = create((set) => ({
         const response = await authService.resetPassword(token, password, passwordConfirm)
         set({ isLoading: false })
         return response
-    }, 
+    },
 
     clearError: () => set({ error: null }),
 

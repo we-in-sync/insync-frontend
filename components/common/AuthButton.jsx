@@ -8,7 +8,7 @@ const AuthButton = ({ text, functionToCall, variant = "primary", isLoading = fal
             disabled={isLoading}
         >
             {isLoading ? (
-                <ActivityIndicator color="#222222" size="small" className='self-center' />
+                <ActivityIndicator color="#222222" size="small" className='self-center text-2xl' />
             ) : (
                 <Text className='text-obsidian font-bold text-2xl self-center'>{text}</Text>
             )}

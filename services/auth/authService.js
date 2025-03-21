@@ -5,34 +5,46 @@ export const authService = {
     signup: async (userData) => {
         try {
             const response = await api.post(AUTH_ENDPOINTS.SIGNUP, userData);
-            return response.data;
+            return {
+                success: true, 
+                data: response.data, 
+            }
         } catch (error) {
-            console.error('Signup error: ', error);
-            throw error;
+            return {
+                success: false, 
+                data: error
+            }
         }
     }, 
 
     login: async (email, password) => {
         try {
             const response = await api.post(AUTH_ENDPOINTS.LOGIN, email, password);
-            return response.data;
+            return {
+                success: true, 
+                data: response.data,
+            }
         } catch (error) {
-            console.error('Login error: ', error);
-            throw error;
+            return {
+                success: false, 
+                data: error, 
+            }
         }
     }, 
 
     forgotPassword: async (email) => {
         try {
             const response = await api.post(AUTH_ENDPOINTS.FORGOT_PASSWORD, {email});
-            console.log(response.data);
-            return response.data;
+            return {
+                success: true, 
+                data: response.data, 
+            }
         } catch (error) {
-            console.log('Forgot password error: ', error);
-
             if (error.response && error.response.data) {
-                console.log('Error response data: ', error.response.data);
-                return error.response.data;
+                return {
+                    success: false, 
+                    data: error.response.data, 
+                }
             }
             throw error;
         }
@@ -41,14 +53,16 @@ export const authService = {
     resetPassword: async (token, password, passwordConfirm) => {
         try {
             const response = await api.patch(AUTH_ENDPOINTS.RESET_PASSWORD(token), { password, passwordConfirm });
-            console.log(response.data);
-            return response.data;
+            return {
+                success: true, 
+                data: response.data,
+            }
         } catch (error) {
-            console.log('Reset password error: ', error);
-            
             if (error.response && error.response.data) {
-                console.log('Error response data: ', error.response.data);
-                return error.response.data;
+                return {
+                    success: false, 
+                    data: error.response.data,
+                }
             }
             throw error;
         }

@@ -1,12 +1,11 @@
 import {    View, 
             Text, 
             SafeAreaView, 
-            TextInput, 
             TouchableOpacity, 
             TouchableWithoutFeedback,
-            Keyboard,
+            Keyboard, 
+            Alert
         } from 'react-native'
-import React from 'react'
 import { useState } from 'react'
 import AuthTextInput from 'components/common/AuthTextInput'
 import AuthButton from 'components/common/AuthButton'
@@ -14,18 +13,21 @@ import AuthButton from 'components/common/AuthButton'
 import useAuthStore from 'store/authStore'
 
 const SigninScreen = ({navigation}) => {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
 
-    const login = useAuthStore(state => state.login);
+    const login = useAuthStore(state => state.login)
+    const isLoading = useAuthStore(state => state.isLoading)
 
     const handleLogin = async () => {
-        await login({
-            email, 
-            password
-        });
+        const response = await login({ email, password });
 
-        // will implement redirect here later 
+        if (!response.success) {
+            Alert.alert("Error", "Invalid credentials, please try again")
+            return 
+        }
+
+        // to-do redirect
     }
 
     return (
@@ -58,7 +60,7 @@ const SigninScreen = ({navigation}) => {
                     </Text>
                 </TouchableOpacity>
 
-                <AuthButton text='Sign in' functionToCall={handleLogin} />
+                <AuthButton text='Sign in' functionToCall={handleLogin} isLoading={isLoading}/>
                 
             </SafeAreaView>
         </TouchableWithoutFeedback>
